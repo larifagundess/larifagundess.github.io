@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Update Daily Goal | Larissa</title>
+  <style>
+    :root{--bg:#071014;--card:#0d1d23;--line:#31515b;--text:#eef7f3;--muted:#9aadb4;--lime:#9afc4d;--teal:#52dfd2;--danger:#ff7770}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 75% 0,#2bd2ba1b,transparent 32%),var(--bg);color:var(--text);font:16px/1.5 "Avenir Next","Segoe UI",sans-serif}.wrap{width:min(620px,100%);margin:auto;padding:24px 18px 54px}.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:38px}.brand{display:flex;align-items:center;gap:11px;font-weight:800}.mark{width:38px;height:38px;display:grid;place-items:center;border-radius:10px;background:var(--lime);color:#071014;font:900 15px ui-monospace}a{color:inherit;text-decoration:none}.back{color:var(--muted);font-size:.9rem}.eyebrow{font:12px ui-monospace;text-transform:uppercase;letter-spacing:.12em;color:var(--lime)}h1{font-size:clamp(2.4rem,10vw,4.5rem);line-height:.98;letter-spacing:-.06em;margin:15px 0 13px}.intro{color:var(--muted);margin:0 0 28px}.card{padding:24px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(145deg,#0d1d23,#102c31);box-shadow:0 25px 75px #0005}.amount{font:900 clamp(3.5rem,17vw,6rem)/1 ui-monospace;color:var(--lime);margin:8px 0}.track{height:17px;margin:18px 0 8px;border:1px solid #36515b;border-radius:999px;background:#071014;overflow:hidden}.fill{width:0;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--lime),var(--teal));transition:width .35s}.row{display:flex;justify-content:space-between;gap:15px;color:var(--muted);font-size:.87rem}.auth{display:grid;gap:12px;text-align:center}.btn{border:0;border-radius:11px;padding:14px 16px;font:800 1rem inherit;cursor:pointer;background:var(--lime);color:#071014}.btn.secondary{border:1px solid #42616a;background:#10242b;color:white}.btn.danger{border-color:#7e3e40;color:#ffaaa6}.btn:disabled{opacity:.45;cursor:not-allowed}.controls{display:none;margin-top:20px}.quick{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.quick button{padding:13px 7px}.exact{display:grid;grid-template-columns:1fr auto;gap:9px;margin-top:10px}.exact input{min-width:0;border:1px solid #42616a;border-radius:10px;background:#071014;color:white;padding:13px;font:700 1rem inherit}.management{display:flex;gap:9px;margin-top:10px}.management>*{flex:1}.message{min-height:24px;margin:15px 0 0;color:var(--muted);font-size:.85rem;text-align:center}.message.ok{color:var(--lime)}.message.error{color:var(--danger)}.signed{display:none;align-items:center;justify-content:space-between;gap:12px;margin-bottom:17px;padding-bottom:17px;border-bottom:1px solid #29434d;color:var(--muted);font-size:.84rem}.signed button{padding:7px 10px;font-size:.8rem}@media(max-width:470px){.quick{grid-template-columns:1fr 1fr}}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header class="top"><a class="brand" href="index.html"><span class="mark">LF</span><span>Daily goal</span></a><a class="back" href="index.html#daily-goal">View portfolio →</a></header>
+    <div class="eyebrow">Private phone controls</div>
+    <h1>Update today’s progress.</h1>
+    <p class="intro">Sign in with your Google account, then add each Uber payout. Changes appear on the iPad and portfolio immediately.</p>
+    <section class="card">
+      <div class="signed" id="signed"><span id="signedEmail"></span><button class="btn secondary" id="signOut" type="button">Sign out</button></div>
+      <div class="auth" id="auth"><button class="btn" id="signIn" type="button">Sign in with Google</button><small>Only Larissa’s approved account can save changes.</small></div>
+      <div class="amount" id="amount">$0</div>
+      <div class="track" role="progressbar" aria-label="Daily earnings goal" aria-valuemin="0" aria-valuemax="150" aria-valuenow="0"><div class="fill" id="fill"></div></div>
+      <div class="row"><span id="percent">0% complete</span><span id="remaining">$150 to go</span></div>
+      <div class="controls" id="controls">
+        <div class="quick"><button class="btn secondary" type="button" data-add="5">+$5</button><button class="btn secondary" type="button" data-add="10">+$10</button><button class="btn secondary" type="button" data-add="20">+$20</button><button class="btn secondary" type="button" data-add="50">+$50</button></div>
+        <div class="exact"><input id="exactAmount" type="number" min="0" max="10000" step="0.01" inputmode="decimal" placeholder="Exact total" aria-label="Exact current total"><button class="btn" id="setAmount" type="button">Set total</button></div>
+        <div class="management"><button class="btn secondary danger" id="reset" type="button">Reset today to $0</button></div>
+      </div>
+      <p class="message" id="message" aria-live="polite">Sign in to update the goal.</p>
+    </section>
+  </main>
+  <script type="module">
+    import{initializeApp}from'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
+    import{getAuth,GoogleAuthProvider,onAuthStateChanged,signInWithPopup,signInWithRedirect,signOut}from'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
+    import{getDatabase,onValue,ref,set}from'https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js';
+    const config={apiKey:'AIzaSyACZPqWk99eqXB_CWLTDtM2fk4FfEktHl0',authDomain:'larissa-daily-goal.firebaseapp.com',databaseURL:'https://larissa-daily-goal-default-rtdb.firebaseio.com',projectId:'larissa-daily-goal',storageBucket:'larissa-daily-goal.firebasestorage.app',messagingSenderId:'671447130746',appId:'1:671447130746:web:3a82ec31b2bea0d9e691c3'};
+    const app=initializeApp(config),auth=getAuth(app),db=getDatabase(app),goalRef=ref(db,'dailyGoal'),GOAL=150,OWNER='larissafagundes38@gmail.com';
+    const $=s=>document.querySelector(s),amountEl=$('#amount'),fill=$('#fill'),percent=$('#percent'),remaining=$('#remaining'),track=$('.track'),message=$('#message'),controls=$('#controls'),authBox=$('#auth'),signed=$('#signed');let current=0,allowed=false;
+    const today=()=>new Date().toLocaleDateString('en-CA');
+    function render(value){current=Math.max(0,Number(value)||0);const pct=Math.min(100,Math.round(current/GOAL*100)),left=Math.max(0,GOAL-current);amountEl.textContent=`$${current.toFixed(current%1?2:0)}`;fill.style.width=`${pct}%`;percent.textContent=current>=GOAL?'Goal reached!':`${pct}% complete`;remaining.textContent=left?`$${left.toFixed(left%1?2:0)} to go`:'Thank you!';track.setAttribute('aria-valuenow',String(Math.min(current,GOAL)))}
+    function note(text,type=''){message.textContent=text;message.className=`message ${type}`}
+    async function save(value){if(!allowed)return note('Please sign in with Larissa’s approved account.','error');const clean=Math.round(Math.max(0,Math.min(10000,Number(value)||0))*100)/100;note('Saving…');try{await set(goalRef,{amount:clean,goal:GOAL,date:today(),updatedAt:Date.now()});note('Saved — the iPad and portfolio are updated.','ok')}catch(error){note('Could not save. Check your connection and try again.','error')}}
+    onValue(goalRef,snap=>{const data=snap.val();render(data&&data.date===today()?data.amount:0)},()=>note('Could not load today’s progress.','error'));
+    onAuthStateChanged(auth,user=>{allowed=Boolean(user&&user.email===OWNER&&user.emailVerified);authBox.style.display=user?'none':'grid';signed.style.display=user?'flex':'none';controls.style.display=allowed?'block':'none';$('#signedEmail').textContent=user?user.email:'';if(user&&!allowed)note('This Google account is not approved to update the goal.','error');else if(allowed)note('Signed in. Ready to update.','ok');else note('Sign in to update the goal.')});
+    $('#signIn').addEventListener('click',async()=>{note('Opening Google sign-in…');try{await signInWithPopup(auth,new GoogleAuthProvider())}catch(error){if(['auth/popup-blocked','auth/operation-not-supported-in-this-environment'].includes(error.code))await signInWithRedirect(auth,new GoogleAuthProvider());else note('Sign-in did not finish. Please try again.','error')}});
+    $('#signOut').addEventListener('click',()=>signOut(auth));
+    $('.quick').addEventListener('click',event=>{const add=event.target.dataset.add;if(add)save(current+Number(add))});
+    $('#setAmount').addEventListener('click',()=>{const input=$('#exactAmount');save(input.value);input.value=''});
+    $('#reset').addEventListener('click',()=>save(0));
+    render(0);
+  </script>
+</body>
+</html>
