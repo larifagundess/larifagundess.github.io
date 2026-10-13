@@ -158,13 +158,20 @@
 @keyframes photo-pop{0%{opacity:0;transform:scale(.25) rotate(calc(var(--tilt) - 9deg))}70%{opacity:1;transform:scale(1.035) rotate(var(--tilt))}100%{opacity:1;transform:scale(1) rotate(var(--tilt))}}
 @media(max-width:580px){.photo-pile .pop-photo{width:88%;height:36%;padding:6px}.photo-pile .pop-0{top:2%;left:0}.photo-pile .pop-1{top:32%;right:0}.photo-pile .pop-2{bottom:0;left:0}.photo-pile .pop-photo figcaption{font-size:.8rem}}
 @media(prefers-reduced-motion:reduce){.photo-pile .pop-photo{animation:none}}
+
+.fluid-stage{min-height:0!important}
+.fluid-copy{padding-bottom:0}
+.fluid-copy .fluid-opportunity{margin-bottom:12px}
+.fluid-copy .story-links{margin-top:0;padding-top:0;border-top:0;gap:18px}
+.fluid-copy .story-links span{opacity:1!important;transition:none}
+.story-album{margin-top:16px}
 </style>
 </head>
 <body>
   <nav class="wrap"><a class="brand" href="#about"><span class="mark">LF</span><span>Larissa Fagundes</span></a><div class="navlinks"><a href="#about">About me</a><a href="#career">Career</a><a href="#projects">Projects</a><a href="#experience">Experience</a></div><a class="contact" href="mailto:larissafagundes38@gmail.com">Contact me</a></nav>
   <main>
     <section class="story-section wrap" id="about" aria-label="Larissa's story"><div class="story-shell">
-<div class="story-top"><span>A little about me</span><a href="#projects">Explore my projects ↓</a></div>
+<div class="story-top"><span>A little about me</span></div>
 <div class="fluid-stage">
 <div class="fluid-copy" id="fluid-copy">
 <h1>Hi, my name is Larissa.</h1>
@@ -172,6 +179,7 @@
 <p>Soccer later took me to Guatemala, where I played professionally for four years. With my team, I won a national championship and earned a Golden Boot.</p>
 <p>Now I live in the Bay Area, coach soccer in San Francisco, and study cybersecurity full time at ASU. I speak Portuguese, Spanish, and English, and balance school with coaching and driving for Uber.</p>
 <p class="fluid-opportunity">I’m also looking for an IT or cybersecurity opportunity.</p>
+<div class="story-links"><div class="linkedin-qr"><img src="linkedin-qr.svg" alt="QR code for Larissa Fagundes on LinkedIn"><span><b>Find me on LinkedIn</b><small>Scan the QR code</small></span></div><a href="#projects">Explore my projects ↓</a></div>
 </div>
 <div class="fluid-memories" aria-label="Photos from my story">
 <figure class="memory college"><img src="story-college-action.jpg" alt="Larissa playing college soccer in a blue number 10 jersey"><figcaption>My college soccer years</figcaption></figure>
@@ -181,7 +189,7 @@
 </div></div>
 <button id="fluid-instant" class="fluid-instant">Show full story</button>
 <details class="story-album"><summary>Photos and full soccer clip</summary><p><a href="story-professional-latest.mp4" target="_blank" rel="noopener">Watch my full professional soccer clip ↗</a></p><div class="story-album-grid"><figure><img src="story-college-night.jpg" alt="Larissa playing college soccer at night" loading="lazy"><figcaption>College soccer</figcaption></figure><figure><img src="story-college-moment.jpg" alt="A moment on the college soccer field" loading="lazy"><figcaption>On the field</figcaption></figure><figure><img src="story-champion.jpg" alt="Larissa posing beside her championship and Golden Boot trophies" loading="lazy"><figcaption>Celebrating in Guatemala</figcaption></figure><figure><img src="story-trophy-rest.jpg" alt="Larissa resting with her two trophies" loading="lazy"><figcaption>The trophies came home too.</figcaption></figure></div></details>
-<div class="story-links"><div class="linkedin-qr"><img src="linkedin-qr.svg" alt="QR code for Larissa Fagundes on LinkedIn"><span><b>Find me on LinkedIn</b><small>Scan the QR code</small></span></div><a href="#projects">Explore my projects ↓</a></div>
+
 <p class="story-tip">If you feel like tipping, you can do it in the Uber app or through <a href="https://venmo.com/u/Larissa-Fagundes-1" target="_blank" rel="noopener noreferrer">Venmo</a>. Thank you!</p>
 </div></section>
     <section class="passenger-notes wrap" id="passenger-notes" aria-labelledby="kind-heading">
@@ -258,7 +266,7 @@ showNote(text);message.value='';feedback.textContent='';close();
 (()=>{
 const stage=document.querySelector('.fluid-stage'),copy=document.querySelector('#fluid-copy'),cards=[...document.querySelectorAll('.memory')],video=document.querySelector('.memory video'),instant=document.querySelector('#fluid-instant');
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
-let tokens=[],elapsed=0,last=0,done=false,inView=true,active=-1,hold=0,nextCue=0;
+let tokens=[],elapsed=0,last=0,done=false,inView=true,active=-1,hold=0,nextCue=0,replayWait=0,repeat=false;
 copy.querySelectorAll('h1,p').forEach(p=>{const text=p.textContent;p.setAttribute('aria-label',text);p.replaceChildren();text.split(' ').forEach(word=>{const span=document.createElement('span');span.textContent=word+' ';span.setAttribute('aria-hidden','true');p.append(span);tokens.push({span,at:elapsed});elapsed+=300+(/[.!?]$/.test(word)?550:/,$/.test(word)?150:0)});elapsed+=200});
 const total=elapsed;elapsed=0;copy.classList.add('revealing');
 const cue=phrase=>{const n=phrase.split(' ').length;const i=tokens.findIndex((t,k)=>tokens.slice(k,k+n).map(x=>x.span.textContent.trim()).join(' ')===phrase);return tokens[i+n-1].at+650};
@@ -277,9 +285,10 @@ video.addEventListener('error',()=>{if(active===1){cards[1].querySelector('figca
 function show(i){active=i;hold=0;photoIndex=-1;stage.classList.add('showing-memory');cards.forEach((c,n)=>{c.classList.toggle('on-stage',n===i);c.setAttribute('aria-hidden',String(n!==i))});if(i===1){video.currentTime=0;video.play().catch(()=>{video.controls=true})}else photo(0)}
 function hide(){active=-1;stage.classList.remove('showing-memory');cards.forEach(c=>{c.classList.remove('on-stage');c.setAttribute('aria-hidden','true')});video.pause()}
 function draw(){tokens.forEach(t=>t.span.classList.toggle('visible',elapsed>=t.at))}
-function finish(){done=true;elapsed=total;draw();hide();instant.hidden=true}
-instant.addEventListener('click',finish);
-function tick(now){const delta=last?Math.min(now-last,100):0;last=now;if(!done&&inView&&!document.hidden){if(active>=0){if(active!==1){hold+=delta;const n=Math.floor(hold/3200);if(n>=albums[active].length)hide();else photo(n)}}else{elapsed+=delta;draw();if(nextCue<cues.length&&elapsed>=cues[nextCue])show(nextCue++);else if(elapsed>=total)finish()}}if(!done)requestAnimationFrame(tick)}
+function finish(autoReplay=false){done=true;elapsed=total;draw();hide();instant.hidden=true;repeat=autoReplay&&!reduced;replayWait=0}
+function restart(){hide();elapsed=0;nextCue=0;hold=0;photoIndex=-1;done=false;repeat=false;replayWait=0;video.currentTime=0;cards.forEach(c=>c.querySelectorAll('.pop-photo').forEach(p=>p.remove()));instant.hidden=false;draw()}
+instant.addEventListener('click',()=>finish(false));
+function tick(now){const delta=last?Math.max(0,now-last):0;last=now;if(inView&&!document.hidden){if(done){if(repeat){replayWait+=delta;if(replayWait>=10000)restart()}}else if(active>=0){if(active!==1){hold+=delta;const n=Math.floor(hold/3200);if(n>=albums[active].length)hide();else photo(n)}}else{elapsed+=delta;draw();if(nextCue<cues.length&&elapsed>=cues[nextCue])show(nextCue++);else if(elapsed>=total)finish(true)}}requestAnimationFrame(tick)}
 new IntersectionObserver(entries=>{inView=entries[0].isIntersecting;if(!inView)video.pause();else if(active===1&&!done&&!document.hidden)video.play().catch(()=>{video.controls=true});last=0},{threshold:.08}).observe(stage);
 document.addEventListener('visibilitychange',()=>{last=0;if(document.hidden)video.pause();else if(active===1&&inView&&!done)video.play().catch(()=>{video.controls=true})});
 cards.forEach(c=>c.setAttribute('aria-hidden','true'));
