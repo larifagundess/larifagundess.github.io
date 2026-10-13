@@ -133,6 +133,17 @@
 @media(max-width:850px){.fluid-stage{min-height:620px}.fluid-copy{padding:18px 6px}.fluid-copy p{font-size:1.2rem}.memory img,.memory video{max-height:540px}}
 @media(max-width:580px){.fluid-stage{min-height:670px}.fluid-copy{padding:12px 0}.fluid-copy p{font-size:1.12rem;line-height:1.6}.memory img,.memory video{max-height:540px}.memory{padding:0}.memory figcaption{font-size:.9rem}}
 @media(prefers-reduced-motion:reduce){.fluid-copy,.memory{transition:none}}
+
+.fluid-stage{min-height:690px}
+.fluid-copy{max-width:1000px;padding:22px 8px}
+.fluid-copy h1{font-size:clamp(2.7rem,4.8vw,4.2rem)}
+.fluid-copy p{font-size:clamp(1.55rem,2.7vw,2rem);line-height:1.5;margin-bottom:22px}
+.memory{overflow:hidden;isolation:isolate}
+.memory:before{content:"";position:absolute;inset:-30px;background-image:var(--memory-image);background-size:cover;background-position:center;filter:blur(24px) brightness(.35);z-index:-1;opacity:.8}
+.memory img,.memory video{max-height:none;height:calc(100% - 48px);width:100%;min-height:0;flex:1;object-fit:contain}
+.memory figcaption{flex-shrink:0;background:#11182ab8;border-radius:12px}
+@media(max-width:850px){.fluid-copy p{font-size:1.65rem}.fluid-copy h1{font-size:2.8rem}.fluid-stage{min-height:730px}.memory img,.memory video{max-height:none}}
+@media(max-width:580px){.fluid-copy p{font-size:1.45rem;line-height:1.5}.fluid-copy h1{font-size:2.3rem}.fluid-stage{min-height:730px}.memory img,.memory video{max-height:none}}
 </style>
 </head>
 <body>
@@ -238,13 +249,23 @@ copy.querySelectorAll('h1,p').forEach(p=>{const text=p.textContent;p.setAttribut
 const total=elapsed;elapsed=0;copy.classList.add('revealing');
 const cue=phrase=>{const n=phrase.split(' ').length;const i=tokens.findIndex((t,k)=>tokens.slice(k,k+n).map(x=>x.span.textContent.trim()).join(' ')===phrase);return tokens[i+n-1].at+650};
 const cues=[cue('scholarship to play soccer.'),cue('professionally for four years.'),cue('national championship'),cue('Golden Boot.')];
-const holds=[5500,16000,5500,5500];
-function show(i){active=i;hold=0;stage.classList.add('showing-memory');cards.forEach((c,n)=>{c.classList.toggle('on-stage',n===i);c.setAttribute('aria-hidden',String(n!==i))});if(i===1){video.currentTime=0;video.play().catch(()=>{video.controls=true})}}
+const albums=[
+[{src:'story-college-action.jpg',alt:'Larissa playing college soccer',caption:'My college soccer years'},{src:'story-college-night.jpg',alt:'Larissa playing college soccer at night',caption:'Under the lights'},{src:'story-college-moment.jpg',alt:'Larissa on the college soccer field',caption:'A moment on the field'}],
+[],
+[{src:'story-team.jpg',alt:'Larissa celebrating with her teammates',caption:'National champions!'},{src:'story-champion.jpg',alt:'Larissa beside her championship trophies',caption:'Celebrating in Guatemala'}],
+[{src:'story-trophies.jpg',alt:'Larissa with her championship and Golden Boot trophies',caption:'And a Golden Boot.'},{src:'story-trophy-rest.jpg',alt:'Larissa resting with her trophies',caption:'The trophies came home too.'}]
+];
+let photoIndex=-1;
+function photo(n){if(photoIndex===n)return;photoIndex=n;const data=albums[active][n],card=cards[active],img=card.querySelector('img');img.src=data.src;img.alt=data.alt;card.querySelector('figcaption').textContent=data.caption;card.style.setProperty('--memory-image','url("'+data.src+'")');img.animate([{opacity:0,transform:'scale(.97)'},{opacity:1,transform:'scale(1)'}],{duration:650,easing:'ease-out'});}
+albums.flat().forEach(item=>{const img=new Image();img.src=item.src});
+video.addEventListener('ended',()=>{if(active===1)hide()});
+video.addEventListener('error',()=>{if(active===1){cards[1].querySelector('figcaption').textContent='The video could not load. You can continue with Show full story.';video.controls=true}});
+function show(i){active=i;hold=0;photoIndex=-1;stage.classList.add('showing-memory');cards.forEach((c,n)=>{c.classList.toggle('on-stage',n===i);c.setAttribute('aria-hidden',String(n!==i))});if(i===1){video.currentTime=0;video.play().catch(()=>{video.controls=true})}else photo(0)}
 function hide(){active=-1;stage.classList.remove('showing-memory');cards.forEach(c=>{c.classList.remove('on-stage');c.setAttribute('aria-hidden','true')});video.pause()}
 function draw(){tokens.forEach(t=>t.span.classList.toggle('visible',elapsed>=t.at))}
 function finish(){done=true;elapsed=total;draw();hide();instant.hidden=true}
 instant.addEventListener('click',finish);
-function tick(now){const delta=last?Math.min(now-last,100):0;last=now;if(!done&&inView&&!document.hidden){if(active>=0){hold+=delta;if(hold>=holds[active])hide()}else{elapsed+=delta;draw();if(nextCue<cues.length&&elapsed>=cues[nextCue])show(nextCue++);else if(elapsed>=total)finish()}}if(!done)requestAnimationFrame(tick)}
+function tick(now){const delta=last?Math.min(now-last,100):0;last=now;if(!done&&inView&&!document.hidden){if(active>=0){if(active!==1){hold+=delta;const n=Math.floor(hold/3600);if(n>=albums[active].length)hide();else photo(n)}}else{elapsed+=delta;draw();if(nextCue<cues.length&&elapsed>=cues[nextCue])show(nextCue++);else if(elapsed>=total)finish()}}if(!done)requestAnimationFrame(tick)}
 new IntersectionObserver(entries=>{inView=entries[0].isIntersecting;if(!inView)video.pause();else if(active===1&&!done&&!document.hidden)video.play().catch(()=>{video.controls=true});last=0},{threshold:.08}).observe(stage);
 document.addEventListener('visibilitychange',()=>{last=0;if(document.hidden)video.pause();else if(active===1&&inView&&!done)video.play().catch(()=>{video.controls=true})});
 cards.forEach(c=>c.setAttribute('aria-hidden','true'));
