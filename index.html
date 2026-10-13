@@ -44,7 +44,8 @@
     .tip-note a{font-weight:800;color:#b6c7ff;text-decoration:underline;text-underline-offset:4px}
   </style>
 <style id="passenger-notes-style">
-.passenger-notes{margin:0 auto 40px}
+.bio-section.goal-section{padding-bottom:16px}
+.passenger-notes{margin:0 auto 32px;scroll-margin-top:90px}
 .kind-strip{display:grid;grid-template-columns:1fr 230px auto;align-items:center;gap:24px;padding:24px 28px;border:1px solid #465579;border-radius:18px;background:#1d2741}
 .kind-copy h2{font-size:1.2rem;letter-spacing:-.02em;margin:0 0 4px;color:#f5f5ff}
 .kind-copy p{font-size:.95rem;color:#c2c9dc;margin:0;line-height:1.5}
@@ -68,17 +69,17 @@
     <section class="passenger-notes wrap" id="passenger-notes" aria-labelledby="kind-heading">
       <div class="kind-strip">
         <div class="kind-copy"><h2 id="kind-heading">A little kindness for the next ride.</h2><p>Leave a note for the next passenger.</p></div>
-        <blockquote class="kind-sticky"><p id="kind-note">Hope something good happens to you today.</p><small id="kind-credit">Example note</small></blockquote>
+        <blockquote class="kind-sticky"><p id="kind-note">Hope something good happens to you today.</p><small id="kind-credit">A little encouragement</small></blockquote>
         <button type="button" class="kind-button" id="kind-open" aria-expanded="false" aria-controls="kind-form">Leave a kind note ↗</button>
       </div>
       <form class="kind-form" id="kind-form" hidden>
         <label for="kind-message">What would you like to tell the next passenger?</label>
         <textarea id="kind-message" maxlength="160" required placeholder="A little encouragement goes a long way." aria-describedby="kind-guidance"></textarea>
         <p id="kind-guidance">Keep it kind. Up to 160 characters. Please leave out names, contact details, and links.</p>
-        <button class="kind-button" type="submit">Preview my note</button><button class="kind-button kind-cancel" id="kind-cancel" type="button">Cancel</button>
+        <button class="kind-button" type="submit">Leave my note</button><button class="kind-button kind-cancel" id="kind-cancel" type="button">Cancel</button>
         <p id="kind-feedback" role="status" aria-live="polite"></p>
       </form>
-      <p class="kind-preview-label">Try the preview. Notes are not saved or shared yet.</p>
+      <p class="kind-preview-label">One note for the next passenger. Saved on this device until someone replaces it.</p>
     </section>
     <section class="career-section wrap" id="career"><div class="career-shell"><article class="career-intro"><span class="section-kicker">Career snapshot</span><h2>Building toward GRC and technology risk.</h2><p>I’m completing my <strong>cybersecurity degree at ASU in Summer 2027</strong>. My work covers access control, Windows Server, Active Directory, Linux, networking, databases, and security frameworks.</p><p>I’m looking for an internship or entry-level opportunity where I can support risk assessments, document controls, collect audit evidence, track remediation, and work with technical teams.</p><div class="career-links"><a class="resume-link" href="Larissa_Fagundes_Cybersecurity_Resume.pdf" target="_blank">View my resume</a><a class="linkedin-link" href="https://www.linkedin.com/in/fagundeslarii" target="_blank" rel="noreferrer">Connect on LinkedIn</a></div><p class="recruiter-note"><strong>What I bring:</strong> technical lab experience, clear documentation, customer-facing communication, and the discipline of a former professional athlete.</p></article><div class="career-grid"><article class="career-item"><span>GRC foundations</span><h3>Risk, controls & compliance</h3><p>NIST CSF, NIST SP 800-53, CIS Controls, control documentation, evidence collection, and remediation tracking.</p></article><article class="career-item"><span>Identity & systems</span><h3>Access and administration</h3><p>Windows Server, Active Directory, Group Policy, PowerShell, user provisioning, permissions, and least privilege.</p></article><article class="career-item"><span>Linux & networking</span><h3>Secure infrastructure</h3><p>RHEL, SSH hardening, services, permissions, IPv4/IPv6, VLANs, routing, ACLs, DNS, and troubleshooting.</p></article><article class="career-item"><span>Development & data</span><h3>Technical range</h3><p>HTML, CSS, JavaScript, REST APIs, SQL Server, database design, Java, Python, and GitHub.</p></article></div></div></section>
     <section class="section wrap work-section" id="projects"><div class="section-head"><div><span class="section-kicker">01 / Security & infrastructure</span><h2>Projects relevant to the work I want to do.</h2></div><p>My strongest examples of access control, secure configuration, technical documentation, troubleshooting, and evidence-based work.</p></div><div class="featured-grid" id="featuredGrid"></div><div class="lab-head"><div><span class="section-kicker">02 / Additional projects</span><h2>More of what I’ve built.</h2></div><p>Coursework and independent projects showing my range across Linux, security analysis, databases, web development, and physical computing.</p></div><div class="filters" id="filters"></div><div class="lab-grid" id="grid"></div></section>
@@ -117,6 +118,11 @@
 <script>
 (()=>{
 const open=document.getElementById('kind-open'),form=document.getElementById('kind-form'),message=document.getElementById('kind-message'),feedback=document.getElementById('kind-feedback');
+const storageKey='larissa-passenger-note-v1',note=document.getElementById('kind-note'),credit=document.getElementById('kind-credit');
+function showNote(text){note.textContent=text;credit.textContent='From a fellow passenger'}
+try{const saved=localStorage.getItem(storageKey);if(saved&&saved.trim()&&saved.length<=160)showNote(saved)}catch(error){}
+window.addEventListener('storage',event=>{if(event.key===storageKey&&event.newValue&&event.newValue.length<=160)showNote(event.newValue)});
+
 function close(){form.hidden=true;open.setAttribute('aria-expanded','false');open.focus()}
 open.addEventListener('click',()=>{form.hidden=!form.hidden;open.setAttribute('aria-expanded',String(!form.hidden));if(!form.hidden)message.focus()});
 document.getElementById('kind-cancel').addEventListener('click',close);
@@ -124,10 +130,9 @@ form.addEventListener('keydown',event=>{if(event.key==='Escape')close()});
 form.addEventListener('submit',event=>{
 event.preventDefault();const text=message.value.trim();
 if(!text){feedback.textContent='Please write a short note first.';message.focus();return}
-document.getElementById('kind-note').textContent=text;
-document.getElementById('kind-credit').textContent='Your preview · not shared';
-feedback.textContent='Here is your preview. Nothing has been saved or posted.';
-close();
+if(text.length>160){feedback.textContent='Please keep your note to 160 characters.';return}
+try{localStorage.setItem(storageKey,text)}catch(error){feedback.textContent='This browser could not save your note. Please enable website storage and try again.';return}
+showNote(text);message.value='';feedback.textContent='';close();
 });
 })();
 </script>
