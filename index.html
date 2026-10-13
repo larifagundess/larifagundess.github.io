@@ -61,11 +61,129 @@
 @media(max-width:760px){.kind-strip{grid-template-columns:1fr 210px;gap:18px;padding:20px}.kind-button{grid-column:1/-1;justify-self:start}.kind-sticky{grid-column:2;grid-row:1/3}.kind-copy{align-self:end}.kind-strip>.kind-button{grid-column:1;grid-row:2;align-self:start;white-space:normal}}
 @media(max-width:480px){.kind-strip{grid-template-columns:1fr;gap:16px}.kind-sticky{grid-column:1;grid-row:2;max-width:270px;width:100%;justify-self:center}.kind-strip>.kind-button{grid-row:3;justify-self:center}.kind-copy{text-align:center}}
 </style>
+
+<style id="visual-story">
+.story-section{padding:28px 24px 16px;scroll-margin-top:85px}
+.story-shell{background:linear-gradient(125deg,#18233c,#232047);border:1px solid #526087;border-radius:24px;padding:28px;box-shadow:8px 10px 0 #7560ae30}
+.story-top{display:flex;justify-content:space-between;align-items:center;gap:16px;color:#c4d2ff;font-size:.78rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.story-top a{font-size:.75rem;text-decoration:underline;letter-spacing:0;text-transform:none}
+.story-stage{display:grid;grid-template-columns:1fr 1.1fr;gap:32px;align-items:center;margin-top:22px;min-height:480px}
+.story-words{font-size:clamp(1.8rem,3.1vw,3rem);font-weight:750;line-height:1.3;letter-spacing:-.025em;margin:16px 0;min-height:210px}
+.story-words span{opacity:0;transition:opacity .28s}.story-words span.shown{opacity:1}
+.story-kicker{color:#ffae97;font-size:.85rem;font-weight:750}
+.story-photo{height:460px;margin:0;position:relative;border-radius:16px;overflow:hidden;background:#0c1223}
+.story-photo img,.story-photo video{width:100%;height:100%;object-fit:contain;display:block}
+.story-photo [hidden]{display:none}
+.story-monogram{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(ellipse at center,#6253aa,#18243d 75%);color:#fff}
+.story-monogram strong{font-size:clamp(3.8rem,8vw,6rem);line-height:1;letter-spacing:-.07em}.story-monogram span{margin-top:24px;color:#d5dcff;font-size:1rem}
+.story-caption{color:#c2c9dc;font-size:.8rem;margin:10px 0 0;min-height:24px}
+.story-controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:20px}
+.story-controls button,.story-watch{border:1px solid #63749d;background:#202d49;color:#fff;border-radius:999px;padding:10px 16px;min-height:44px;cursor:pointer;font:700 .86rem inherit}
+.story-controls button:disabled{opacity:.35;cursor:default}
+.story-controls .story-primary{background:#b4c2ff;color:#151b32;border-color:#b4c2ff}
+.story-watch{margin-top:12px;background:#ffb79e;color:#192138}
+.story-shell button:focus-visible,.story-shell a:focus-visible,.story-shell summary:focus-visible{outline:3px solid #ffd382;outline-offset:4px}
+.story-track{height:3px;background:#ffffff20;border-radius:3px;overflow:hidden;margin-top:20px}.story-track div{height:100%;width:0;background:#ffb79e}
+.story-chapters{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.story-chapters button{background:transparent;color:#c5cde2;border:1px solid #536185;border-radius:8px;padding:8px 12px;min-height:44px;cursor:pointer;font:inherit;font-size:.8rem}
+.story-chapters button[aria-current=true]{color:white;border-color:#bcceff;background:#50619955}
+.story-links{display:flex;align-items:center;flex-wrap:wrap;gap:20px;border-top:1px solid #526087;margin-top:24px;padding-top:20px}
+.story-links .linkedin-qr{margin:0;max-width:300px}
+.story-links>a{font-weight:800;text-decoration:underline;text-underline-offset:4px;color:#c4d2ff}
+.story-tip{font-size:.9rem;color:#c2c9dc;margin:20px 0 0}.story-tip a{text-decoration:underline}
+.story-full,.story-album{margin-top:20px;border-top:1px solid #526087;padding-top:16px}
+.story-full summary,.story-album summary{cursor:pointer;font-weight:750;min-height:44px}
+.story-full p{font-size:1.15rem;color:#e0e5f4;line-height:1.65}
+.story-album-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.story-album-grid figure{margin:0}.story-album-grid img{width:100%;height:240px;object-fit:contain;background:#111a2d;border-radius:8px}.story-album-grid figcaption{font-size:.8rem;color:#c2c9dc}
+.story-video-dialog{background:#131d32;color:white;border:1px solid #536185;border-radius:16px;padding:18px;max-width: min(92vw,620px)}
+.story-video-dialog video{display:block;width:100%;height:65vh;margin-top:12px}
+.story-video-dialog button{background:#b4c2ff;color:#151b32;border:0;padding:12px 18px;border-radius:20px;font:inherit;cursor:pointer}
+@media(max-width:800px){.story-stage{grid-template-columns:1fr;gap:10px;min-height:0}.story-words{font-size:1.9rem;min-height:130px;margin:10px 0}.story-photo{height:350px}.story-shell{padding:22px}.story-stage{margin-top:16px}.story-album-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:460px){.story-section{padding-inline:14px}.story-shell{padding:18px}.story-words{font-size:1.6rem;min-height:130px}.story-photo{height:280px}.story-top{align-items:start}.story-album-grid{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.story-words span{transition:none}}
+
+.fluid-stage{display:grid;grid-template-columns:1.08fr 1fr;gap:40px;align-items:center;margin-top:30px}
+.fluid-copy h1{font-size:clamp(2rem,3.3vw,3rem);line-height:1.15;margin:0 0 22px;letter-spacing:-.035em}
+.fluid-copy p{font-size:clamp(1.1rem,1.65vw,1.4rem);line-height:1.65;margin:0 0 18px;color:#e0e4f5}
+.fluid-copy.revealing span{opacity:0;transition:opacity .55s ease}.fluid-copy.revealing span.visible{opacity:1}
+.fluid-opportunity{color:#fbc6b3!important;font-weight:750}
+.fluid-memories{height:540px;position:relative;isolation:isolate}
+.memory{position:absolute;margin:0;padding:9px 9px 0;background:#27314d;border:1px solid #69759a;box-shadow:0 18px 45px #070b2266;border-radius:14px;opacity:0;transform:translateY(25px) scale(.88) rotate(var(--tilt));transition:opacity .7s ease,transform .85s cubic-bezier(.2,.8,.2,1);width:86%;pointer-events:none}
+.memory.arrived{opacity:1;transform:translateY(0) scale(1) rotate(var(--tilt))}.memory.front{z-index:6}
+.memory img{width:100%;height:245px;object-fit:contain;border-radius:8px;background:#11182a;display:block}.memory video{width:100%;height:310px;object-fit:contain;border-radius:8px;background:#11182a;display:block;pointer-events:auto}
+.memory figcaption{font-size:.8rem;padding:10px 4px;color:#dbe1f4}
+.college{top:12px;left:0;--tilt:-5deg}.pro{top:95px;right:0;--tilt:4deg;width:67%}.team{top:155px;left:1%;--tilt:-3deg}.trophy{top:260px;right:0;--tilt:4deg}
+.fluid-instant{border:0;background:none;color:#aebddf;font:inherit;font-size:.8rem;text-decoration:underline;text-underline-offset:4px;cursor:pointer;padding:8px 0;min-height:40px}.fluid-instant[hidden]{display:none}
+@media(max-width:850px){.fluid-stage{grid-template-columns:1.1fr 1fr;gap:18px}.fluid-copy p{font-size:1.03rem;line-height:1.55}.fluid-memories{height:470px}.memory img{height:190px}.memory video{height:250px}.trophy{top:245px}.fluid-copy h1{font-size:2rem}}
+@media(max-width:580px){.fluid-stage{grid-template-columns:1fr;margin-top:24px;gap:14px}.fluid-copy p{font-size:1.08rem}.fluid-memories{height:395px}.memory{width:76%}.memory img{height:160px}.memory video{height:210px}.pro{width:57%;top:45px}.team{top:90px}.trophy{top:185px}.fluid-copy h1{font-size:2rem}}
+@media(prefers-reduced-motion:reduce){.fluid-copy.revealing span,.memory{transition:none}}
+
+/* One story, interrupted only by its memories. */
+.fluid-stage{display:block;position:relative;min-height:620px;margin-top:24px;isolation:isolate}
+.fluid-copy{max-width:880px;margin:auto;padding:26px 16px;transition:opacity .65s ease,filter .65s ease}
+.fluid-copy h1{font-size:clamp(2rem,4vw,3.4rem)}
+.fluid-copy p{font-size:clamp(1.18rem,2.1vw,1.55rem);line-height:1.65}
+.fluid-memories{position:absolute;inset:0;height:auto;pointer-events:none;z-index:5}
+.memory,.memory.pro{inset:0;width:100%;height:100%;padding:14px;margin:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(125deg,#18233c,#232047);border:0;box-shadow:none;border-radius:18px;opacity:0;visibility:hidden;transform:scale(.93);transition:opacity .6s ease,transform .75s cubic-bezier(.2,.8,.2,1),visibility .6s}
+.memory.on-stage{opacity:1;visibility:visible;transform:scale(1);pointer-events:auto}
+.memory img,.memory video{width:100%;height:calc(100% - 48px);max-height:535px;object-fit:contain;background:transparent;border-radius:12px}
+.memory figcaption{font-size:1rem;text-align:center;padding:12px;color:#e1e5f5}
+.showing-memory .fluid-copy{opacity:0;filter:blur(3px)}
+.fluid-instant{position:relative;z-index:6}
+@media(max-width:850px){.fluid-stage{min-height:620px}.fluid-copy{padding:18px 6px}.fluid-copy p{font-size:1.2rem}.memory img,.memory video{max-height:540px}}
+@media(max-width:580px){.fluid-stage{min-height:670px}.fluid-copy{padding:12px 0}.fluid-copy p{font-size:1.12rem;line-height:1.6}.memory img,.memory video{max-height:540px}.memory{padding:0}.memory figcaption{font-size:.9rem}}
+@media(prefers-reduced-motion:reduce){.fluid-copy,.memory{transition:none}}
+
+.fluid-stage{min-height:690px}
+.fluid-copy{max-width:1000px;padding:22px 8px}
+.fluid-copy h1{font-size:clamp(2.7rem,4.8vw,4.2rem)}
+.fluid-copy p{font-size:clamp(1.55rem,2.7vw,2rem);line-height:1.5;margin-bottom:22px}
+.memory{overflow:hidden;isolation:isolate}
+.memory:before{content:"";position:absolute;inset:-30px;background-image:var(--memory-image);background-size:cover;background-position:center;filter:blur(24px) brightness(.35);z-index:-1;opacity:.8}
+.memory img,.memory video{max-height:none;height:calc(100% - 48px);width:100%;min-height:0;flex:1;object-fit:contain}
+.memory figcaption{flex-shrink:0;background:#11182ab8;border-radius:12px}
+@media(max-width:850px){.fluid-copy p{font-size:1.65rem}.fluid-copy h1{font-size:2.8rem}.fluid-stage{min-height:730px}.memory img,.memory video{max-height:none}}
+@media(max-width:580px){.fluid-copy p{font-size:1.45rem;line-height:1.5}.fluid-copy h1{font-size:2.3rem}.fluid-stage{min-height:730px}.memory img,.memory video{max-height:none}}
+
+/* Slower, overlapping photo pops inspired by the supplied example. */
+.memory.photo-pile{display:block;overflow:visible;background:transparent;padding:0}
+.memory.photo-pile:before,.memory.photo-pile>img,.memory.photo-pile>figcaption{display:none}
+.photo-pile .pop-photo{position:absolute;margin:0;width:62%;height:47%;padding:9px;background:#25304c;border:1px solid #8292bf;border-radius:15px;box-shadow:0 20px 55px #0008;animation:photo-pop .65s cubic-bezier(.17,.88,.3,1.25) both;transform:rotate(var(--tilt));z-index:1;overflow:hidden}
+.photo-pile .pop-photo img{display:block;width:100%;height:calc(100% - 35px);object-fit:contain;background:#111a2e;border-radius:8px}
+.photo-pile .pop-photo figcaption{font-size:.85rem;line-height:1.3;padding:8px 2px;text-align:center;background:none}
+.photo-pile .pop-0{top:1%;left:1%;--tilt:-5deg}
+.photo-pile .pop-1{top:25%;right:1%;--tilt:5deg;z-index:2}
+.photo-pile .pop-2{bottom:0;left:4%;--tilt:-3deg;z-index:3}
+
+@keyframes photo-pop{0%{opacity:0;transform:scale(.25) rotate(calc(var(--tilt) - 9deg))}70%{opacity:1;transform:scale(1.035) rotate(var(--tilt))}100%{opacity:1;transform:scale(1) rotate(var(--tilt))}}
+@media(max-width:580px){.photo-pile .pop-photo{width:88%;height:36%;padding:6px}.photo-pile .pop-0{top:2%;left:0}.photo-pile .pop-1{top:32%;right:0}.photo-pile .pop-2{bottom:0;left:0}.photo-pile .pop-photo figcaption{font-size:.8rem}}
+@media(prefers-reduced-motion:reduce){.photo-pile .pop-photo{animation:none}}
+</style>
 </head>
 <body>
   <nav class="wrap"><a class="brand" href="#about"><span class="mark">LF</span><span>Larissa Fagundes</span></a><div class="navlinks"><a href="#about">About me</a><a href="#career">Career</a><a href="#projects">Projects</a><a href="#experience">Experience</a></div><a class="contact" href="mailto:larissafagundes38@gmail.com">Contact me</a></nav>
   <main>
-    <section class="goal-section wrap bio-section" id="about"><div class="goal-card"><article class="goal-copy"><div class="label">A little about me</div><h2>Hi, I’m Larissa.</h2><p class="personal-lead">I was born and raised in <strong>São Paulo, Brazil</strong>, and came to the United States on a soccer scholarship. Soccer later took me to Guatemala, where I played professionally for four years, won a national championship, and earned a Golden Boot.</p><p class="personal-details">Today I live in the Bay Area, coach soccer in San Francisco, and study <strong>cybersecurity full time at ASU</strong>. I speak Portuguese, Spanish, and English, and I balance school with coaching and driving for Uber.</p><p class="goal-opportunity">I’m also looking for an IT or cybersecurity opportunity.</p><div class="linkedin-qr"><img src="linkedin-qr.svg" alt="QR code for Larissa Fagundes on LinkedIn"><span><b>Find me on LinkedIn</b><small>Scan the QR code</small></span></div><a class="goal-scroll" href="#projects">Scroll down to see my projects ↓</a><p class="tip-note">If you feel like tipping, you can do it in the Uber app or through <a href="https://venmo.com/u/Larissa-Fagundes-1" target="_blank" rel="noopener noreferrer">Venmo</a>. Thank you!</p></article></div></section>
+    <section class="story-section wrap" id="about" aria-label="Larissa's story"><div class="story-shell">
+<div class="story-top"><span>A little about me</span><a href="#projects">Explore my projects ↓</a></div>
+<div class="fluid-stage">
+<div class="fluid-copy" id="fluid-copy">
+<h1>Hi, my name is Larissa.</h1>
+<p>I was born and raised in São Paulo, Brazil. I came to the United States on a scholarship to play soccer.</p>
+<p>Soccer later took me to Guatemala, where I played professionally for four years. With my team, I won a national championship and earned a Golden Boot.</p>
+<p>Now I live in the Bay Area, coach soccer in San Francisco, and study cybersecurity full time at ASU. I speak Portuguese, Spanish, and English, and balance school with coaching and driving for Uber.</p>
+<p class="fluid-opportunity">I’m also looking for an IT or cybersecurity opportunity.</p>
+</div>
+<div class="fluid-memories" aria-label="Photos from my story">
+<figure class="memory college"><img src="story-college-action.jpg" alt="Larissa playing college soccer in a blue number 10 jersey"><figcaption>My college soccer years</figcaption></figure>
+<figure class="memory pro"><video src="story-professional-latest.mp4" muted playsinline preload="metadata" aria-label="Larissa playing professional soccer in Guatemala"></video><figcaption>Playing professionally in Guatemala</figcaption></figure>
+<figure class="memory team"><img src="story-team.jpg" alt="Larissa celebrating the national championship with her teammates"><figcaption>National champions!</figcaption></figure>
+<figure class="memory trophy"><img src="story-trophies.jpg" alt="Larissa with her championship and Golden Boot trophies"><figcaption>And a Golden Boot.</figcaption></figure>
+</div></div>
+<button id="fluid-instant" class="fluid-instant">Show full story</button>
+<details class="story-album"><summary>Photos and full soccer clip</summary><p><a href="story-professional-latest.mp4" target="_blank" rel="noopener">Watch my full professional soccer clip ↗</a></p><div class="story-album-grid"><figure><img src="story-college-night.jpg" alt="Larissa playing college soccer at night" loading="lazy"><figcaption>College soccer</figcaption></figure><figure><img src="story-college-moment.jpg" alt="A moment on the college soccer field" loading="lazy"><figcaption>On the field</figcaption></figure><figure><img src="story-champion.jpg" alt="Larissa posing beside her championship and Golden Boot trophies" loading="lazy"><figcaption>Celebrating in Guatemala</figcaption></figure><figure><img src="story-trophy-rest.jpg" alt="Larissa resting with her two trophies" loading="lazy"><figcaption>The trophies came home too.</figcaption></figure></div></details>
+<div class="story-links"><div class="linkedin-qr"><img src="linkedin-qr.svg" alt="QR code for Larissa Fagundes on LinkedIn"><span><b>Find me on LinkedIn</b><small>Scan the QR code</small></span></div><a href="#projects">Explore my projects ↓</a></div>
+<p class="story-tip">If you feel like tipping, you can do it in the Uber app or through <a href="https://venmo.com/u/Larissa-Fagundes-1" target="_blank" rel="noopener noreferrer">Venmo</a>. Thank you!</p>
+</div></section>
     <section class="passenger-notes wrap" id="passenger-notes" aria-labelledby="kind-heading">
       <div class="kind-strip">
         <div class="kind-copy"><h2 id="kind-heading">A little kindness for the next ride.</h2><p>Leave a note for the next passenger.</p></div>
@@ -136,5 +254,35 @@ showNote(text);message.value='';feedback.textContent='';close();
 });
 })();
 </script>
-</body>
-</html>
+<script>
+(()=>{
+const stage=document.querySelector('.fluid-stage'),copy=document.querySelector('#fluid-copy'),cards=[...document.querySelectorAll('.memory')],video=document.querySelector('.memory video'),instant=document.querySelector('#fluid-instant');
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let tokens=[],elapsed=0,last=0,done=false,inView=true,active=-1,hold=0,nextCue=0;
+copy.querySelectorAll('h1,p').forEach(p=>{const text=p.textContent;p.setAttribute('aria-label',text);p.replaceChildren();text.split(' ').forEach(word=>{const span=document.createElement('span');span.textContent=word+' ';span.setAttribute('aria-hidden','true');p.append(span);tokens.push({span,at:elapsed});elapsed+=300+(/[.!?]$/.test(word)?550:/,$/.test(word)?150:0)});elapsed+=200});
+const total=elapsed;elapsed=0;copy.classList.add('revealing');
+const cue=phrase=>{const n=phrase.split(' ').length;const i=tokens.findIndex((t,k)=>tokens.slice(k,k+n).map(x=>x.span.textContent.trim()).join(' ')===phrase);return tokens[i+n-1].at+650};
+const cues=[cue('scholarship to play soccer.'),cue('professionally for four years.'),cue('national championship'),cue('Golden Boot.')];
+const albums=[
+[{src:'story-college-action.jpg',alt:'Larissa playing college soccer',caption:'My college soccer years'},{src:'story-college-night.jpg',alt:'Larissa playing college soccer at night',caption:'Under the lights'},{src:'story-college-moment.jpg',alt:'Larissa on the college soccer field',caption:'A moment on the field'}],
+[],
+[{src:'story-team.jpg',alt:'Larissa celebrating with her teammates',caption:'National champions!'},{src:'story-champion.jpg',alt:'Larissa beside her championship trophies',caption:'Celebrating in Guatemala'}],
+[{src:'story-trophies.jpg',alt:'Larissa with her championship and Golden Boot trophies',caption:'And a Golden Boot.'},{src:'story-trophy-rest.jpg',alt:'Larissa resting with her trophies',caption:'The trophies came home too.'}]
+];
+let photoIndex=-1;
+function photo(n){if(photoIndex===n)return;photoIndex=n;const data=albums[active][n],card=cards[active];if(n===0){card.querySelectorAll('.pop-photo').forEach(p=>p.remove());card.classList.add('photo-pile');}const frame=document.createElement('figure');frame.className='pop-photo pop-'+n;const img=document.createElement('img');img.src=data.src;img.alt=data.alt;const caption=document.createElement('figcaption');caption.textContent=data.caption;frame.append(img,caption);card.append(frame);}
+albums.flat().forEach(item=>{const img=new Image();img.src=item.src});
+video.addEventListener('ended',()=>{if(active===1)hide()});
+video.addEventListener('error',()=>{if(active===1){cards[1].querySelector('figcaption').textContent='The video could not load. You can continue with Show full story.';video.controls=true}});
+function show(i){active=i;hold=0;photoIndex=-1;stage.classList.add('showing-memory');cards.forEach((c,n)=>{c.classList.toggle('on-stage',n===i);c.setAttribute('aria-hidden',String(n!==i))});if(i===1){video.currentTime=0;video.play().catch(()=>{video.controls=true})}else photo(0)}
+function hide(){active=-1;stage.classList.remove('showing-memory');cards.forEach(c=>{c.classList.remove('on-stage');c.setAttribute('aria-hidden','true')});video.pause()}
+function draw(){tokens.forEach(t=>t.span.classList.toggle('visible',elapsed>=t.at))}
+function finish(){done=true;elapsed=total;draw();hide();instant.hidden=true}
+instant.addEventListener('click',finish);
+function tick(now){const delta=last?Math.min(now-last,100):0;last=now;if(!done&&inView&&!document.hidden){if(active>=0){if(active!==1){hold+=delta;const n=Math.floor(hold/3200);if(n>=albums[active].length)hide();else photo(n)}}else{elapsed+=delta;draw();if(nextCue<cues.length&&elapsed>=cues[nextCue])show(nextCue++);else if(elapsed>=total)finish()}}if(!done)requestAnimationFrame(tick)}
+new IntersectionObserver(entries=>{inView=entries[0].isIntersecting;if(!inView)video.pause();else if(active===1&&!done&&!document.hidden)video.play().catch(()=>{video.controls=true});last=0},{threshold:.08}).observe(stage);
+document.addEventListener('visibilitychange',()=>{last=0;if(document.hidden)video.pause();else if(active===1&&inView&&!done)video.play().catch(()=>{video.controls=true})});
+cards.forEach(c=>c.setAttribute('aria-hidden','true'));
+if(reduced)finish();else requestAnimationFrame(tick);
+})();
+</script></body></html>
