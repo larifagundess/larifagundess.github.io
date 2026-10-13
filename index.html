@@ -43,11 +43,43 @@
     .bio-section .goal-copy .tip-note{font-size:1rem;line-height:1.6;color:#bbc4d8;border-top:1px solid #465579;padding-top:20px;margin:26px 0 0;max-width:none}
     .tip-note a{font-weight:800;color:#b6c7ff;text-decoration:underline;text-underline-offset:4px}
   </style>
+<style id="passenger-notes-style">
+.passenger-notes{margin:0 auto 40px}
+.kind-strip{display:grid;grid-template-columns:1fr 230px auto;align-items:center;gap:24px;padding:24px 28px;border:1px solid #465579;border-radius:18px;background:#1d2741}
+.kind-copy h2{font-size:1.2rem;letter-spacing:-.02em;margin:0 0 4px;color:#f5f5ff}
+.kind-copy p{font-size:.95rem;color:#c2c9dc;margin:0;line-height:1.5}
+.kind-sticky{margin:0;background:#fff0ab;color:#30304a;padding:16px 18px;border-radius:3px 3px 16px 3px;box-shadow:3px 5px 0 #10192e;transform:rotate(-1.5deg);font-size:1rem;line-height:1.45;overflow-wrap:anywhere}
+.kind-sticky p{margin:0}.kind-sticky small{display:block;margin-top:8px;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;opacity:.7}
+.kind-button{border:1px solid #a8baff;border-radius:999px;background:#a8baff;color:#151b32;padding:12px 18px;font-size:.9rem;font-weight:800;cursor:pointer;min-height:44px;white-space:nowrap}
+.kind-button:focus-visible,.kind-form textarea:focus-visible{outline:3px solid #ff987d;outline-offset:4px}
+.kind-form{margin-top:18px;padding:22px;border:1px solid #465579;border-radius:14px;background:#1d2741}
+.kind-form[hidden]{display:none}.kind-form label{display:block;font-weight:700;margin-bottom:8px}
+.kind-form textarea{display:block;width:100%;min-height:95px;resize:vertical;padding:12px;border:1px solid #8190b5;border-radius:8px;background:#151d32;color:#fff;font:inherit}
+.kind-form p{font-size:.85rem;color:#c2c9dc;margin:8px 0 14px}.kind-form .kind-cancel{background:transparent;color:#d5ddfa;border-color:#66779f;margin-left:8px}
+.kind-preview-label{font-size:.75rem;color:#acb9d6;margin:12px 0 0}.kind-preview-label a{text-decoration:underline}
+@media(max-width:760px){.kind-strip{grid-template-columns:1fr 210px;gap:18px;padding:20px}.kind-button{grid-column:1/-1;justify-self:start}.kind-sticky{grid-column:2;grid-row:1/3}.kind-copy{align-self:end}.kind-strip>.kind-button{grid-column:1;grid-row:2;align-self:start;white-space:normal}}
+@media(max-width:480px){.kind-strip{grid-template-columns:1fr;gap:16px}.kind-sticky{grid-column:1;grid-row:2;max-width:270px;width:100%;justify-self:center}.kind-strip>.kind-button{grid-row:3;justify-self:center}.kind-copy{text-align:center}}
+</style>
 </head>
 <body>
   <nav class="wrap"><a class="brand" href="#about"><span class="mark">LF</span><span>Larissa Fagundes</span></a><div class="navlinks"><a href="#about">About me</a><a href="#career">Career</a><a href="#projects">Projects</a><a href="#experience">Experience</a></div><a class="contact" href="mailto:larissafagundes38@gmail.com">Contact me</a></nav>
   <main>
     <section class="goal-section wrap bio-section" id="about"><div class="goal-card"><article class="goal-copy"><div class="label">A little about me</div><h2>Hi, I’m Larissa.</h2><p class="personal-lead">I was born and raised in <strong>São Paulo, Brazil</strong>, and came to the United States on a soccer scholarship. Soccer later took me to Guatemala, where I played professionally for four years, won a national championship, and earned a Golden Boot.</p><p class="personal-details">Today I live in the Bay Area, coach soccer in San Francisco, and study <strong>cybersecurity full time at ASU</strong>. I speak Portuguese, Spanish, and English, and I balance school with coaching and driving for Uber.</p><p class="goal-opportunity">I’m also looking for an IT or cybersecurity opportunity.</p><div class="linkedin-qr"><img src="linkedin-qr.svg" alt="QR code for Larissa Fagundes on LinkedIn"><span><b>Find me on LinkedIn</b><small>Scan the QR code</small></span></div><a class="goal-scroll" href="#projects">Scroll down to see my projects ↓</a><p class="tip-note">If you feel like tipping, you can do it in the Uber app or through <a href="https://venmo.com/u/Larissa-Fagundes-1" target="_blank" rel="noopener noreferrer">Venmo</a>. Thank you!</p></article></div></section>
+    <section class="passenger-notes wrap" id="passenger-notes" aria-labelledby="kind-heading">
+      <div class="kind-strip">
+        <div class="kind-copy"><h2 id="kind-heading">A little kindness for the next ride.</h2><p>Leave a note for the next passenger.</p></div>
+        <blockquote class="kind-sticky"><p id="kind-note">Hope something good happens to you today.</p><small id="kind-credit">Example note</small></blockquote>
+        <button type="button" class="kind-button" id="kind-open" aria-expanded="false" aria-controls="kind-form">Leave a kind note ↗</button>
+      </div>
+      <form class="kind-form" id="kind-form" hidden>
+        <label for="kind-message">What would you like to tell the next passenger?</label>
+        <textarea id="kind-message" maxlength="160" required placeholder="A little encouragement goes a long way." aria-describedby="kind-guidance"></textarea>
+        <p id="kind-guidance">Keep it kind. Up to 160 characters. Please leave out names, contact details, and links.</p>
+        <button class="kind-button" type="submit">Preview my note</button><button class="kind-button kind-cancel" id="kind-cancel" type="button">Cancel</button>
+        <p id="kind-feedback" role="status" aria-live="polite"></p>
+      </form>
+      <p class="kind-preview-label">Try the preview. Notes are not saved or shared yet.</p>
+    </section>
     <section class="career-section wrap" id="career"><div class="career-shell"><article class="career-intro"><span class="section-kicker">Career snapshot</span><h2>Building toward GRC and technology risk.</h2><p>I’m completing my <strong>cybersecurity degree at ASU in Summer 2027</strong>. My work covers access control, Windows Server, Active Directory, Linux, networking, databases, and security frameworks.</p><p>I’m looking for an internship or entry-level opportunity where I can support risk assessments, document controls, collect audit evidence, track remediation, and work with technical teams.</p><div class="career-links"><a class="resume-link" href="Larissa_Fagundes_Cybersecurity_Resume.pdf" target="_blank">View my resume</a><a class="linkedin-link" href="https://www.linkedin.com/in/fagundeslarii" target="_blank" rel="noreferrer">Connect on LinkedIn</a></div><p class="recruiter-note"><strong>What I bring:</strong> technical lab experience, clear documentation, customer-facing communication, and the discipline of a former professional athlete.</p></article><div class="career-grid"><article class="career-item"><span>GRC foundations</span><h3>Risk, controls & compliance</h3><p>NIST CSF, NIST SP 800-53, CIS Controls, control documentation, evidence collection, and remediation tracking.</p></article><article class="career-item"><span>Identity & systems</span><h3>Access and administration</h3><p>Windows Server, Active Directory, Group Policy, PowerShell, user provisioning, permissions, and least privilege.</p></article><article class="career-item"><span>Linux & networking</span><h3>Secure infrastructure</h3><p>RHEL, SSH hardening, services, permissions, IPv4/IPv6, VLANs, routing, ACLs, DNS, and troubleshooting.</p></article><article class="career-item"><span>Development & data</span><h3>Technical range</h3><p>HTML, CSS, JavaScript, REST APIs, SQL Server, database design, Java, Python, and GitHub.</p></article></div></div></section>
     <section class="section wrap work-section" id="projects"><div class="section-head"><div><span class="section-kicker">01 / Security & infrastructure</span><h2>Projects relevant to the work I want to do.</h2></div><p>My strongest examples of access control, secure configuration, technical documentation, troubleshooting, and evidence-based work.</p></div><div class="featured-grid" id="featuredGrid"></div><div class="lab-head"><div><span class="section-kicker">02 / Additional projects</span><h2>More of what I’ve built.</h2></div><p>Coursework and independent projects showing my range across Linux, security analysis, databases, web development, and physical computing.</p></div><div class="filters" id="filters"></div><div class="lab-grid" id="grid"></div></section>
     <section class="experience-section wrap" id="experience"><div class="experience-head"><div><span class="section-kicker">03 / Experience</span><h2>Technical work backed by real-world responsibility.</h2></div><p>My path into cybersecurity is not traditional. It has given me experience communicating with different people, working under pressure, and staying accountable.</p></div><div class="experience-list"><article class="experience-card"><span class="when">2021–2025 · Guatemala</span><h3>Professional Soccer Player</h3><h4>National champion · Golden Boot</h4><p>Performed in a high-pressure, international environment where preparation, consistency, teamwork, and quick decisions mattered every day.</p></article><article class="experience-card"><span class="when">Current · San Francisco</span><h3>Soccer Coach</h3><h4>Youth athletics</h4><p>Plan sessions, explain skills clearly, adjust to different learning styles, and create a structured environment for young athletes.</p></article><article class="experience-card"><span class="when">Current · Bay Area</span><h3>Uber Driver</h3><h4>5.00 driver rating</h4><p>Manage a customer-facing service independently while using the income to fund school and continue building my cybersecurity career.</p></article></div></section>
@@ -82,5 +114,22 @@
   function draw(){const list=labProjects.filter(p=>active==='All'||p.category===active);grid.innerHTML=list.map(labCard).join('')}
   filters.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;active=b.dataset.cat;drawFilters();draw()});projectSection.addEventListener('click',e=>{const c=e.target.closest('.case-card');if(!c)return;const p=projects.find(x=>x.title===c.dataset.title);body.innerHTML=`<p class="modal-course">${p.course} · ${p.category}</p><h2>${p.title}</h2><p>${p.summary}</p><div class="dialog-grid"><div><b>The challenge</b><p>${p.challenge}</p></div><div><b>What I accomplished</b><p>${p.outcome}</p></div></div><div class="tags">${p.tools.map(t=>`<span>${t}</span>`).join('')}</div>`;modal.showModal()});document.querySelector('.close').onclick=()=>modal.close();modal.addEventListener('click',e=>{if(e.target===modal)modal.close()});drawFeatured();drawFilters();draw();
   </script>
+<script>
+(()=>{
+const open=document.getElementById('kind-open'),form=document.getElementById('kind-form'),message=document.getElementById('kind-message'),feedback=document.getElementById('kind-feedback');
+function close(){form.hidden=true;open.setAttribute('aria-expanded','false');open.focus()}
+open.addEventListener('click',()=>{form.hidden=!form.hidden;open.setAttribute('aria-expanded',String(!form.hidden));if(!form.hidden)message.focus()});
+document.getElementById('kind-cancel').addEventListener('click',close);
+form.addEventListener('keydown',event=>{if(event.key==='Escape')close()});
+form.addEventListener('submit',event=>{
+event.preventDefault();const text=message.value.trim();
+if(!text){feedback.textContent='Please write a short note first.';message.focus();return}
+document.getElementById('kind-note').textContent=text;
+document.getElementById('kind-credit').textContent='Your preview · not shared';
+feedback.textContent='Here is your preview. Nothing has been saved or posted.';
+close();
+});
+})();
+</script>
 </body>
 </html>
